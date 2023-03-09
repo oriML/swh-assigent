@@ -33,6 +33,7 @@ import {
 } from '@angular/material/datepicker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
+import { HomeComponent } from './components/home/home.component';
 
 
 @NgModule({
@@ -42,6 +43,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     CountriesListComponent,
     CountriesRowComponent,
     CountryFormComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,

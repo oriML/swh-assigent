@@ -26,9 +26,9 @@ export class CountriesListGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Promise<boolean | UrlTree> {
 
-    const countires: CountryModel[] = await this._countriesService.get();
+    const countries: CountryModel[] = await this._countriesService.get();
 
-    this._lsService.setItem("countries", countires);
+    this._lsService.setItem("countries", countries);
 
     return true;
   }
