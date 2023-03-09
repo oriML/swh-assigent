@@ -1,0 +1,38 @@
+<form [formGroup]="form">
+
+    <!-- choose country -->
+    <mat-form-field appearance="outline">
+        <mat-label>מדינה</mat-label>
+        <mat-select formControlName="name">
+            <mat-option *ngFor="let country of countries" value="{{ country.name.common }}">
+                {{ country.name.common }}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <!-- from date -->
+    <mat-form-field appearance="outline">
+        <mat-label>תאריך מ</mat-label>
+        <input matInput [matDatepicker]="from" formControlName="fromDate">
+        <mat-datepicker-toggle matIconSuffix [for]="from"></mat-datepicker-toggle>
+        <mat-datepicker #from></mat-datepicker>
+    </mat-form-field>
+
+    <!-- to date -->
+    <mat-form-field appearance="outline">
+        <mat-label>תאריך עד</mat-label>
+        <input matInput [matDatepicker]="to" formControlName="toDate">
+        <mat-datepicker-toggle matIconSuffix [for]="to"></mat-datepicker-toggle>
+        <mat-datepicker #to></mat-datepicker>
+    </mat-form-field>
+
+    <!-- notes -->
+    <mat-form-field>
+        <mat-label>הערות</mat-label>
+        <input matInput formControlName="notes">
+    </mat-form-field>
+
+    <!-- submit -->
+    <button mat-raised-button color="primary" (click)="addCountry()" [disabled]="form.invalid">שלח</button>
+
+</form>

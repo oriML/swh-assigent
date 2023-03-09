@@ -1,0 +1,11 @@
+:host {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    justify-content: center;
+}
+
+.cell {
+    border: 1px solid;
+    padding: 4px;
+}

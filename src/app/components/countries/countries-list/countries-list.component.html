@@ -1,0 +1,4 @@
+<app-countries-row *ngFor="let country of countries" [country]="country"
+    (removeCountryEvent)="removeCountryEvent.emit($event)">
+
+</app-countries-row>

@@ -1,0 +1,4 @@
+<app-countries-list [countries]="_countriesService.countriesSubject$ | async"
+    (removeCountryEvent)="removeCountry($event)">
+
+</app-countries-list>

@@ -1,0 +1,17 @@
+form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+::ng-deep {
+
+    mat-form-field {
+        width: 45%;
+    }
+
+    label {
+        text-align: right;
+    }
+}
