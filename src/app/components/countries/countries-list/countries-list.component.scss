@@ -1,0 +1,15 @@
+.columns {
+    display: flex;
+    flex-wrap: nowrap;
+    // width: 100%;
+    justify-content: center;
+    flex-direction: row-reverse;
+    border-bottom: 1px solid rgb(202, 202, 202);
+
+    .col-header {
+        padding: 4px;
+        width: 150px;
+        height: 30px;
+        text-align: center;
+    }
+}

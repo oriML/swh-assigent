@@ -21,4 +21,8 @@ export class CountriesRowComponent implements OnInit {
     this.removeCountryEvent.emit(this.country);
   }
 
+  getFormattedDate(date: Date) {
+    return date.toLocaleDateString();
+  }
+
 }

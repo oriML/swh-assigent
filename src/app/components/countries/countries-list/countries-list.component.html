@@ -1,3 +1,26 @@
+<div class="columns">
+    <div class="col-header">
+        <span>
+            מדינה
+        </span>
+    </div>
+    <div class="col-header">
+        <span>
+            תאריך מ
+        </span>
+    </div>
+    <div class="col-header">
+        <span>
+            תאריך עד
+        </span>
+    </div>
+    <div class="col-header">
+        <span>
+            הערות
+        </span>
+    </div>
+</div>
+
 <app-countries-row *ngFor="let country of countries" [country]="country"
     (removeCountryEvent)="removeCountryEvent.emit($event)">
 

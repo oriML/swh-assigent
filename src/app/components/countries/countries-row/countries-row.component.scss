@@ -1,11 +1,24 @@
 :host {
     display: flex;
     flex-wrap: nowrap;
-    width: 100%;
     justify-content: center;
+    flex-direction: row-reverse;
+    border: 1px solid #f4f4f4;
+    border-top: none;
+    background: #fbfbfb;
 }
 
 .cell {
-    border: 1px solid;
+    // border: 1px solid;
     padding: 4px;
+    width: 150px;
+    height: 30px;
+    padding-bottom: 1%;
+    // &:not(:first-child) {
+    text-align: center;
+
+    &:last-child {
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
 }

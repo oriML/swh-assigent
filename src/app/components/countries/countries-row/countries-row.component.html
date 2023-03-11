@@ -6,18 +6,18 @@
 
 <div class="cell">
     <span>
-        {{ country.fromDate }}
+        {{ getFormattedDate(country.fromDate) }}
     </span>
 </div>
 
 <div class="cell">
     <span>
-        {{ country.toDate }}
+        {{ getFormattedDate(country.toDate) }}
     </span>
 </div>
 
-<div class="cell" (click)="removeCountry()">
+<div matTooltip="{{ country.notes }}" class="cell" (click)="removeCountry()">
     <span>
-        X
+        {{ country.notes }}
     </span>
 </div>
