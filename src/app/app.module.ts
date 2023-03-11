@@ -3,13 +3,10 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
-import { AppRoutingModule } from './app-routing.module';
 import { CountriesContainerComponent } from './components/countries/countries-container/countries-container.component';
 import { CountriesListComponent } from './components/countries/countries-list/countries-list.component';
 import { CountriesRowComponent } from './components/countries/countries-row/countries-row.component';
 import { CountryFormComponent } from './components/country-form/country-form.component';
-import { CountriesListGuard } from './guards/countries-list.guard';
-import { CountriesListClearGuard } from './guards/countries-list-clear.guard';
 import { HttpClientModule } from '@angular/common/http';
 
 import {
@@ -33,8 +30,8 @@ import {
 } from '@angular/material/datepicker';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatNativeDateModule } from '@angular/material/core';
-import { HomeComponent } from './components/home/home.component';
-
+import { MatAutocompleteModule } from '@angular/material/autocomplete'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -43,12 +40,10 @@ import { HomeComponent } from './components/home/home.component';
     CountriesListComponent,
     CountriesRowComponent,
     CountryFormComponent,
-    HomeComponent,
   ],
   imports: [
     BrowserModule,
     NoopAnimationsModule,
-    AppRoutingModule,
     HttpClientModule,
     MatFormFieldModule,
     MatSelectModule,
@@ -58,10 +53,10 @@ import { HomeComponent } from './components/home/home.component';
     MatNativeDateModule,
     FormsModule,
     ReactiveFormsModule,
+    MatAutocompleteModule,
+    MatProgressSpinnerModule,
   ],
   providers: [
-    CountriesListGuard,
-    CountriesListClearGuard,
     MatDatepickerModule,
   ],
   bootstrap: [AppComponent]

@@ -1,13 +1,21 @@
 <form [formGroup]="form">
 
-    <!-- choose country -->
-    <mat-form-field appearance="outline">
+    <!-- autocomplete -->
+    <mat-form-field class="example-full-width" appearance="outline">
         <mat-label>מדינה</mat-label>
-        <mat-select formControlName="name">
-            <mat-option *ngFor="let country of countries" value="{{ country.name.common }}">
-                {{ country.name.common }}
-            </mat-option>
-        </mat-select>
+        <input type="text" aria-label="Number" matInput [formControl]="criteriaNameControl" [matAutocomplete]="auto">
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="setCountryName($event)">
+            <ng-container *ngIf="countries.length > 0">
+                <mat-option *ngFor="let country of countries" value="{{ country.name.common }}">
+                    {{ country.name.common }}
+                </mat-option>
+            </ng-container>
+            <ng-container *ngIf="countries.length == 0">
+                <mat-option class="not-found-results" disabled>
+                    לא נמצאו תוצאות לחיפוש זה
+                </mat-option>
+            </ng-container>
+        </mat-autocomplete>
     </mat-form-field>
 
     <!-- from date -->

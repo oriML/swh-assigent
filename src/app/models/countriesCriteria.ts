@@ -1,3 +1,3 @@
 export interface CountriesCriteria {
-    Name?: string;
+    name?: string;
 }

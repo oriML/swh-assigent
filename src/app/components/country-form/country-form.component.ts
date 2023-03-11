@@ -1,5 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { Observable, Subject } from 'rxjs';
+import { debounceTime, takeWhile } from 'rxjs/operators';
+import { CountriesCriteria } from 'src/app/models/countriesCriteria';
 import { CountryModel } from 'src/app/models/country.DTO';
 import { ICountryShortModel } from 'src/app/models/country.model';
 import { CountriesService } from 'src/app/services/countries.service';
@@ -10,22 +14,35 @@ import { LocalStorageService } from 'src/app/services/local-storage.service';
   templateUrl: './country-form.component.html',
   styleUrls: ['./country-form.component.scss']
 })
-export class CountryFormComponent implements OnInit {
+export class CountryFormComponent implements OnInit, OnDestroy {
 
-  countries!: CountryModel[];
+  countries: CountryModel[] = [];
+  keepAlive: boolean = true;
+
   form!: FormGroup;
+  criteriaForm!: FormGroup;
+
 
   constructor(
-    private readonly _countriesService: CountriesService,
-    private readonly _lsService: LocalStorageService,
+    public _countriesService: CountriesService,
     private _fb: FormBuilder
   ) {
 
   }
 
+  ngOnDestroy(): void {
+    this.keepAlive = false;
+  }
+
   ngOnInit(): void {
-    this.countries = this._lsService.getItem("countries");
     this.initForm();
+    this.initCriteria();
+    this._countriesService.filteredCountriesSubject$
+      .pipe(takeWhile(() => this.keepAlive))
+      .subscribe(x => {
+        this.countries = x;
+      });
+
   }
 
   initForm() {
@@ -35,10 +52,38 @@ export class CountryFormComponent implements OnInit {
       toDate: [undefined, Validators.required],
       notes: ['']
     })
-    this.form.valueChanges.subscribe(x => console.log(x));
+  }
+
+  initCriteria() {
+    this.criteriaForm = this._fb.group({
+      name: ['']
+    });
+
+    this.criteriaForm.valueChanges
+      .pipe(
+        takeWhile(() => this.keepAlive),
+        debounceTime(400)
+      )
+      .subscribe(() => this.setCriteria());
   }
 
   addCountry() {
     this._countriesService.add(this.form.value);
   }
+
+  setCriteria() {
+    const criteria = this.criteriaForm.value as CountriesCriteria;
+    this._countriesService.getByCriteria(criteria);
+  }
+
+  setCountryName(event: MatAutocompleteSelectedEvent) {
+    const name = event.option.value;
+    const nameControl = this.form.controls["name"] as FormControl;
+    nameControl.setValue(name);
+  }
+
+  public get criteriaNameControl() {
+    return this.criteriaForm.controls["name"] as FormControl;
+  }
+
 }
