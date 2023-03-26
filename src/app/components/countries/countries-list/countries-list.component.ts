@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { CountryModel } from 'src/app/models/country.DTO';
+import { Observable } from 'rxjs';
 import { ICountryShortModel } from 'src/app/models/country.model';
 
 @Component({
@@ -9,14 +9,16 @@ import { ICountryShortModel } from 'src/app/models/country.model';
 })
 export class CountriesListComponent implements OnInit {
 
-  @Input() countries: ICountryShortModel[] | null = [];
-
+  @Input() countries$!: Observable<ICountryShortModel[]>;
+  countries!: ICountryShortModel[];
   @Output() removeCountryEvent = new EventEmitter<ICountryShortModel>();
 
   constructor() { }
 
   ngOnInit(): void {
-    console.log(this.countries)
+    this.countries$.subscribe(x => {
+      this.countries = x;
+    })
   }
 
 }

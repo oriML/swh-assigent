@@ -35,10 +35,11 @@ export class CountryFormComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    const parent = this;
     this.initForm();
     this.initCriteria();
-    this._countriesService.filteredCountriesSubject$
-      .pipe(takeWhile(() => this.keepAlive))
+    this._countriesService.allFilteredCountries$
+      .pipe(takeWhile(() => parent.keepAlive))
       .subscribe(x => {
         this.countries = x;
       });
@@ -55,13 +56,14 @@ export class CountryFormComponent implements OnInit, OnDestroy {
   }
 
   initCriteria() {
+    const parent = this;
     this.criteriaForm = this._fb.group({
       name: ['']
     });
 
     this.criteriaForm.valueChanges
       .pipe(
-        takeWhile(() => this.keepAlive),
+        takeWhile(() => parent.keepAlive),
         debounceTime(400)
       )
       .subscribe(() => this.setCriteria());

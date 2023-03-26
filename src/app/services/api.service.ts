@@ -1,19 +1,21 @@
 import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
+import { Injectable, Inject } from '@angular/core';
 import { CountriesCriteria } from '../models/countriesCriteria';
 import { CountryModel } from '../models/country.DTO';
 import { lastValueFrom } from 'rxjs'
+import { EnvironmentConfig, ENV_CONFIG } from 'src/environments/environment-config.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  baseUrl: string;
+  private readonly baseUrl: string;
 
   constructor(
+    @Inject(ENV_CONFIG) private config: EnvironmentConfig,
     private _service: HttpClient,
   ) {
-    this.baseUrl = `https://restcountries.com/v3.1/`;
+    this.baseUrl = `${config.environment.baseUrl}`;
   }
 
   public async getByCriteria(criteria: CountriesCriteria): Promise<CountryModel[] | []> {

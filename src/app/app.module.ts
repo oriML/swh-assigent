@@ -33,6 +33,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatAutocompleteModule } from '@angular/material/autocomplete'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { HttpModule } from './http/http.module';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -57,6 +59,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
     MatAutocompleteModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
+    HttpModule.forRoot({ environment })
   ],
   providers: [
     MatDatepickerModule,

@@ -12,26 +12,23 @@ import { ApiService } from './api.service';
 })
 export class CountriesService {
 
-  private baseUrl: string;
   private countriesList: ICountryShortModel[] = [];
   private filteredCountriesList: CountryModel[] = [];
 
-  public countriesSubject$: Subject<ICountryShortModel[]> = new Subject();
-  public filteredCountriesSubject$: Subject<CountryModel[]> = new Subject();
+  private countriesSubject$: Subject<ICountryShortModel[]> = new Subject();
+  private filteredCountriesSubject$: Subject<CountryModel[]> = new Subject();
 
-  constructor(
-    private _api: ApiService,
-  ) {
-    this.baseUrl = `https://restcountries.com/v3.1/`;
+  public get allCountries$(): Observable<ICountryShortModel[]> {
+    return this.countriesSubject$.asObservable();
   }
 
+  public get allFilteredCountries$(): Observable<CountryModel[]> {
+    return this.filteredCountriesSubject$.asObservable();
+  }
+
+  constructor(private _api: ApiService) { }
+
   public async getByCriteria(criteria: CountriesCriteria) {
-
-    let url = this.baseUrl;
-
-    if (criteria.name != null) {
-      url += `name/${criteria.name}`
-    }
 
     this.filteredCountriesList = await this._api.getByCriteria(criteria);
 
