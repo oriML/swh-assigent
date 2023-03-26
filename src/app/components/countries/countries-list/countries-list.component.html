@@ -1,12 +1,14 @@
-<div class="columns">
-    <div class="col-header" *ngFor="let col of tableColumns">
-        <span>
-            {{ col.value }}
-        </span>
+<div class="container default-border radius">
+    <div class="columns">
+        <div class="col-header" *ngFor="let col of tableColumns">
+            <span>
+                {{ col.value }}
+            </span>
+        </div>
     </div>
+
+    <app-countries-row *ngFor="let country of countries" [country]="country"
+        (removeCountryEvent)="removeCountryEvent.emit($event)">
+
+    </app-countries-row>
 </div>
-
-<app-countries-row *ngFor="let country of countries" [country]="country"
-    (removeCountryEvent)="removeCountryEvent.emit($event)">
-
-</app-countries-row>
