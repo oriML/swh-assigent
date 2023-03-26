@@ -1,22 +1,7 @@
 <div class="columns">
-    <div class="col-header">
+    <div class="col-header" *ngFor="let col of tableColumns">
         <span>
-            מדינה
-        </span>
-    </div>
-    <div class="col-header">
-        <span>
-            תאריך מ
-        </span>
-    </div>
-    <div class="col-header">
-        <span>
-            תאריך עד
-        </span>
-    </div>
-    <div class="col-header">
-        <span>
-            הערות
+            {{ col.value }}
         </span>
     </div>
 </div>

@@ -8,6 +8,7 @@ import { CountryModel } from 'src/app/models/country.DTO';
 import { ICountryShortModel } from 'src/app/models/country.model';
 import { CountriesService } from 'src/app/services/countries.service';
 import { LocalStorageService } from 'src/app/services/local-storage.service';
+import { countriesTableColumns, noResultsMsg } from 'src/app/utils/constants';
 
 @Component({
   selector: 'app-country-form',
@@ -21,7 +22,6 @@ export class CountryFormComponent implements OnInit, OnDestroy {
 
   form!: FormGroup;
   criteriaForm!: FormGroup;
-
 
   constructor(
     public _countriesService: CountriesService,
@@ -86,6 +86,19 @@ export class CountryFormComponent implements OnInit, OnDestroy {
 
   public get criteriaNameControl() {
     return this.criteriaForm.controls["name"] as FormControl;
+  }
+
+  get tableColumnsGroup() {
+    const columnGroup: { [name: string]: string } = countriesTableColumns.reduce((p, c) => ({
+      [c.key]: c.value,
+      ...p
+    }), {});
+
+    return columnGroup;
+  }
+
+  get noResultsMsg() {
+    return noResultsMsg;
   }
 
 }
