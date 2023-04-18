@@ -1,32 +1,27 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { Observable, takeWhile } from 'rxjs';
+import { Observable, takeUntil } from 'rxjs';
 import { ICountryShortModel } from 'src/app/models/country.model';
 import { countriesTableColumns } from 'src/app/utils/constants';
+import { Unsub } from 'src/app/utils/unsub.class';
 
 @Component({
   selector: 'app-countries-list',
   templateUrl: './countries-list.component.html',
   styleUrls: ['./countries-list.component.scss']
 })
-export class CountriesListComponent implements OnInit, OnDestroy {
+export class CountriesListComponent extends Unsub implements OnInit, OnDestroy {
 
   @Input() countries$!: Observable<ICountryShortModel[]>;
   countries!: ICountryShortModel[];
   @Output() removeCountryEvent = new EventEmitter<ICountryShortModel>();
 
-  private keepAlive: boolean = true;
-
-  constructor() { }
-
-  ngOnDestroy(): void {
-    this.keepAlive = false;
+  constructor() {
+    super();
   }
 
   ngOnInit(): void {
-    const parent = this;
-
     this.countries$
-      .pipe(takeWhile(() => parent.keepAlive))
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe(x => {
         this.countries = x;
       })

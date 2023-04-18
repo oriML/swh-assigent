@@ -1,24 +1,21 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { Observable, Subject } from 'rxjs';
-import { debounceTime, takeWhile } from 'rxjs/operators';
+import { debounceTime, takeUntil } from 'rxjs/operators';
 import { CountriesCriteria } from 'src/app/models/countriesCriteria';
 import { CountryModel } from 'src/app/models/country.DTO';
-import { ICountryShortModel } from 'src/app/models/country.model';
 import { CountriesService } from 'src/app/services/countries.service';
-import { LocalStorageService } from 'src/app/services/local-storage.service';
 import { countriesTableColumns, noResultsMsg } from 'src/app/utils/constants';
+import { Unsub } from 'src/app/utils/unsub.class';
 
 @Component({
   selector: 'app-country-form',
   templateUrl: './country-form.component.html',
   styleUrls: ['./country-form.component.scss']
 })
-export class CountryFormComponent implements OnInit, OnDestroy {
+export class CountryFormComponent extends Unsub implements OnInit, OnDestroy {
 
   countries: CountryModel[] = [];
-  keepAlive: boolean = true;
 
   form!: FormGroup;
   criteriaForm!: FormGroup;
@@ -27,19 +24,14 @@ export class CountryFormComponent implements OnInit, OnDestroy {
     public _countriesService: CountriesService,
     private _fb: FormBuilder
   ) {
-
-  }
-
-  ngOnDestroy(): void {
-    this.keepAlive = false;
+    super();
   }
 
   ngOnInit(): void {
-    const parent = this;
     this.initForm();
     this.initCriteria();
     this._countriesService.allFilteredCountries$
-      .pipe(takeWhile(() => parent.keepAlive))
+      .pipe(takeUntil(this.unsubscribe$))
       .subscribe(x => {
         this.countries = x;
       });
@@ -56,14 +48,13 @@ export class CountryFormComponent implements OnInit, OnDestroy {
   }
 
   initCriteria() {
-    const parent = this;
     this.criteriaForm = this._fb.group({
       name: ['']
     });
 
     this.criteriaForm.valueChanges
       .pipe(
-        takeWhile(() => parent.keepAlive),
+        takeUntil(this.unsubscribe$),
         debounceTime(400)
       )
       .subscribe(() => this.setCriteria());
